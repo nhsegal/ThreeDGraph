@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+  <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+  <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js"></script>
+  <script language="javascript" type="text/javascript" src="sketch.js"></script>
+
+</head>
+
+<body>
+
+  <div id="sketch-holder">
+    <!-- Our sketch will go here! -->
+  </div>
+  <div class="slidecontainer">
+    <input type="range" min="-3" max="3" value="0" class="slider" step="0.2" id="Br" onchange = "render()">
+  </div>
+  <div class="slidecontainer">
+    <input type="range" min="-3" max="3" value="1" class="slider" step="0.2" id="Bi" onchange = "render()">
+  </div>
+  <div class="slidecontainer">
+    <input type="range" min="-3" max="3" value="1" class="slider" step="0.2" id="Cr" onchange = "render()">
+  </div>
+  <div class="slidecontainer">
+    <input type="range" min="-3" max="3" value="-1" class="slider" step="0.2" id="Ci" onchange = "render()">
+  </div>
+
+  <button type="button" onclick = "switchIandR()">Switch</button>
+
+</body>
+
+</html>
