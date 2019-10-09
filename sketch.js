@@ -24,7 +24,7 @@ function preload() {
 function setup() {
   let canvas = createCanvas(500, 400, WEBGL);
   canvas.parent('sketch-holder');
-  camera(0, 800, 1200, 0, 0, 0, 0, 1, 1);
+  camera(0, 400, 600, 0, 0, 0, 0, 1, 1);
   cols = 500 / scl;
   rows = 500 / scl;
   w = new Array(cols);
