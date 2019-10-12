@@ -4,31 +4,62 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="style.css">
+  <script src="complex.js"></script>
   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js"></script>
   <script language="javascript" type="text/javascript" src="sketch.js"></script>
+  <title>Complex Function Explorer</title>
 
 </head>
 
 <body>
+  <p>
+    <div>
+      The graph below depicts the Riemann surface associated with the mapping of the complex number <i>z</i> to <i>w</i>, where <i>z</i> and <i>w</i> fit the relation<br>
+      <p id="eqn"> <i>z = Aw<sup>3</sup> + Bw<sup>2</sup> + Cw + D</i><br></p>
+      and the coefficients <i>A</i>, <i>B</i>, <i>C</i>, and <i>D</i> are complex numbers. The real and imaginary parts of these coefficients can be set with the text boxes below.
+      <br>
+      <br>
+    </div>
+    <div id="sketch-holder">
+      <!-- Our sketch will go here! -->
+    </div>
+    <div class="slidecontainer">
+      <i>A<sub>r</sub></i> = <input type="text" value="1" id="Ar" onchange="render()">
+      <i>A<sub>i</sub></i> = <input type="text" value="0" id="Ai" onchange="render()">
+    </div>
+    <div class="slidecontainer">
+      <i>B<sub>r</sub></i> = <input type="text" value="0" id="Br" onchange="render()">
+      <i>B<sub>i</sub></i> = <input type="text" value="0" id="Bi" onchange="render()">
+    </div>
+    <div class="slidecontainer">
+      <i>C<sub>r</sub></i> = <input type="text" value="0" id="Cr" onchange="render()">
+      <i>C<sub>i</sub></i> = <input type="text" value="0" id="Ci" onchange="render()">
+    </div>
+    <div class="slidecontainer">
+      <i>D<sub>r</sub></i> = <input type="text" value="0" id="Dr" onchange="render()">
+      <i>D<sub>i</sub></i> = <input type="text" value="0" id="Di" onchange="render()">
+    </div>
+    <br>
+    <button id="switchButton" type="button" onclick="switchIandR()">Make <i>w<sub>i</sub></i> Height</button>
+  </p>
+  <p>
+    The horizontal plane represents the complex domain <i>z</i>. The height of the surface and it color represent the real and imaginary parts of <i>w</i>, respectively. The button switches this relationship.
 
-  <div id="sketch-holder">
-    <!-- Our sketch will go here! -->
-  </div>
-  <div class="slidecontainer">
-    <input type="range" min="-3" max="3" value="0" class="slider" step="0.2" id="Br" onchange = "render()">
-  </div>
-  <div class="slidecontainer">
-    <input type="range" min="-3" max="3" value="1" class="slider" step="0.2" id="Bi" onchange = "render()">
-  </div>
-  <div class="slidecontainer">
-    <input type="range" min="-3" max="3" value="1" class="slider" step="0.2" id="Cr" onchange = "render()">
-  </div>
-  <div class="slidecontainer">
-    <input type="range" min="-3" max="3" value="-1" class="slider" step="0.2" id="Ci" onchange = "render()">
-  </div>
+    <p>
+      Use the mouse to control your view of the graph.
+    </p>
+    Adjust the window for the domain and range below:
+    <div class="slidecontainer">
+      <i>Z<sub>min</sub></i> = <input type="text" value="-2" id="Zmin" onchange="render()">
+      <i>Z<sub>max</sub></i> = <input type="text" value="2" id="Zmax" onchange="render()">
+    </div>
+    <div class="slidecontainer">
+      <i>W<sub>min</sub></i> = <input type="text" value="-2" id="Wmin" onchange="render()">
+      <i>W<sub>max</sub></i> = <input type="text" value="2" id="Wmax" onchange="render()">
+    </div>
 
-  <button type="button" onclick = "switchIandR()">Switch</button>
+
 
 </body>
 
