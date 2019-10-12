@@ -7,9 +7,39 @@ body {
 input {
   border: 1px solid grey;
   border-radius: 4px;
+  width: 25px;
+  text-align: right;
+  font-family: Georgia, serif;
+  font-size: medium;
+  line-height: 174X;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 textarea {
   border: 1px solid grey;
   border-radius: 4px;
+  font-family: Georgia, serif;
+  font-size: medium;
+  line-height: 174X;
+}
+
+#sketch-holder {
+  float: left;
+  padding-right: 10px;
+}
+
+.slidecontainer {
+}
+
+#switchButton {
+  font-size: 126px;
+  font-family: Georgia, serif;
+  font-size: medium;
+  line-height: 174X;
+}
+
+
+#eqn {
+  text-indent: 50px;
 }
