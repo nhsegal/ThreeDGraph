@@ -1,3 +1,4 @@
+
 let cols;
 let rows;
 let scl = 10;
@@ -150,9 +151,26 @@ function render() {
     for (let z = 0; z < rows; z++) {
       let X = map(x, 0, cols, parseFloat(Zmin.value), parseFloat(Zmax.value));
       let Z = map(z, 0, rows, parseFloat(Zmin.value), parseFloat(Zmax.value));
-      w[x][z] = cubeRoot1(X, Z, Ar.value, Ai.value, Br.value, Bi.value, Cr.value, Ci.value, Dr.value, Di.value);
-      w2[x][z] = cubeRoot2(X, Z, Ar.value, Ai.value, Br.value, Bi.value, Cr.value, Ci.value, Dr.value, Di.value);
-      w3[x][z] = cubeRoot3(X, Z, Ar.value, Ai.value, Br.value, Bi.value, Cr.value, Ci.value, Dr.value, Di.value);
+      w[x][z] = cubeRoot1(X, Z,
+        parseFloat(Ar.value), parseFloat(Ai.value),
+        parseFloat(Br.value), parseFloat(Bi.value),
+        parseFloat(Cr.value), parseFloat(Ci.value),
+        parseFloat(Dr.value), parseFloat(Di.value)
+      );
+
+      w2[x][z] = cubeRoot2(X, Z,
+        parseFloat(Ar.value), parseFloat(Ai.value),
+        parseFloat(Br.value), parseFloat(Bi.value),
+        parseFloat(Cr.value), parseFloat(Ci.value),
+        parseFloat(Dr.value), parseFloat(Di.value)
+      );
+
+      w3[x][z] = cubeRoot3(X, Z,
+        parseFloat(Ar.value), parseFloat(Ai.value),
+        parseFloat(Br.value), parseFloat(Bi.value),
+        parseFloat(Cr.value), parseFloat(Ci.value),
+        parseFloat(Dr.value), parseFloat(Di.value)
+      );
     }
   }
 }
@@ -173,9 +191,9 @@ function cubeRoot1(zr, zi, ar, ai, br, bi, cr, ci, dr, di) {
   let b = new Complex(br, bi);
   let c = new Complex(cr, ci);
   let d = new Complex(dr - zr, di - zi);
-  let z = new Complex(zr, zi);
+
   if (ar == 0 && ai == 0) {
-    return applyRoot1(z.re, z.im, b.re, b.im, c.re, c.im, d.re, d.im);
+    return applyRoot1(zr, zi, br, bi, cr, ci, dr, di);
   }
 
   let p = b.mul(-1).div(a.mul(1 / 3));
@@ -194,11 +212,11 @@ function cubeRoot2(zr, zi, ar, ai, br, bi, cr, ci, dr, di) {
   let b = new Complex(br, bi);
   let c = new Complex(cr, ci);
   let d = new Complex(dr - zr, di - zi);
-  let z = new Complex(zr, zi);
+
   let rot = new Complex(-.5, -sqrt(3) / 2);
 
   if (ar == 0 && ai == 0) {
-    return applyRoot2(z.re, z.im, b.re, b.im, c.re, c.im, d.re, d.im);
+    return applyRoot2(zr, zi, br, bi, cr, ci, dr, di);
   }
 
   let p = b.mul(-1).div(a.mul(1 / 3));
@@ -219,14 +237,14 @@ function cubeRoot3(zr, zi, ar, ai, br, bi, cr, ci, dr, di) {
   let b = new Complex(br, bi);
   let c = new Complex(cr, ci);
   let d = new Complex(dr - zr, di - zi);
-  let z = new Complex(zr, zi);
+
   let rot = new Complex(-.5, sqrt(3) / 2);
   let p = b.mul(-1).div(a.mul(1 / 3));
   let q = p.pow(3).add((b.mul(c).sub(a.mul(3).mul(d))).div(a.pow(2).mul(6)));
   let r = c.div(a.mul(3));
 
   if (ar == 0 && ai == 0) {
-    return applyRoot2(z.re, z.im, b.re, b.im, c.re, c.im, d.re, d.im);
+    return applyRoot2(zr, zi, br, bi, cr, ci, dr, di);
   }
   let x = (q.add((q.pow(2).add(r.sub(p.pow(2)).pow(3)).pow(.5)))).pow(1 / 3).mul(rot)
     .add((q.sub((q.pow(2).add(r.sub(p.pow(2)).pow(3)).pow(.5)))).pow(1 / 3).mul(rot))
