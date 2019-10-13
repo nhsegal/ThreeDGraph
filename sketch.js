@@ -18,6 +18,9 @@ let Zmax;
 let Wmin;
 let Wmax;
 
+let shiftY;
+let shiftX;
+
 let switchButton;
 let switchFactor = 0;
 
@@ -41,7 +44,7 @@ function preload() {
 function setup() {
   let canvas = createCanvas(500, 400, WEBGL);
   canvas.parent('sketch-holder');
-  camera(0, 800, 1200, 0, 0, 0, 0, 1, 1);
+  camera(0, 0, 600, 0, 0, 0, 0, 1, 0);
   cols = 500 / scl;
   rows = 500 / scl;
   w = new Array(cols);
@@ -51,16 +54,22 @@ function setup() {
 }
 
 function draw() {
-  ambientLight(255);
+  ambientLight(155);
+  colorMode(RGB);
   orbitControl();
-  background(175);
+  background(130);
   rectMode(CENTER);
   stroke(255);
   strokeWeight(1);
-  background(0);
 
   push();
-  translate(-(250)*(.5*parseFloat(Zmin.value) + .5*parseFloat(Zmax.value)), -(250)*(.5*parseFloat(Zmin.value) + .5*parseFloat(Zmax.value)), 0);
+  shiftX = map(-0.5 * (parseFloat(Zmin.value) + parseFloat(Zmax.value)),
+    parseFloat(Zmin.value), parseFloat(Zmax.value), -width / 2, width / 2);
+
+  shiftY = map(0, parseFloat(Wmin.value), parseFloat(Wmax.value), -width / 2, width / 2);
+
+
+  translate(shiftX / 2, -shiftY, shiftX / 2);
   fill(255, 0, 0);
   box(1000, 4, 4); //axes are boxes because line doesn't work with WebGL
   fill(0, 255, 0);
@@ -69,55 +78,81 @@ function draw() {
   box(4, 4, 1000);
   pop();
 
-  translate((-width / 2), -height / 2, -scl * cols / 2);
   colorMode(HSB);
   if (!switchFactor) {
     for (let x = 0; x < cols; x++) {
-      for (let y = 0; y < rows; y++) {
-        let c = map(w[x][y].im, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
-        let c2 = map(w2[x][y].im, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
-        let c3 = map(w3[x][y].im, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
-        stroke(c, 250, 250);
-        point(x * scl, y * scl, map(w[x][y].re, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, rows) * scl);
-        stroke(c2, 250, 250);
-        point(x * scl, y * scl, map(w2[x][y].re, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, rows) * scl);
-        stroke(c3, 250, 250);
-        point(x * scl, y * scl, map(w3[x][y].re, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, rows) * scl);
+      for (let z = 0; z < rows; z++) {
+        let c = map(w[x][z].im, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
+        let c2 = map(w2[x][z].im, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
+        let c3 = map(w3[x][z].im, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
+        let Xcord = map(x, 0, cols, -cols / 2, cols / 2);
+        let Zcord = map(z, 0, rows, -rows / 2, rows / 2);
+        let Ycord1 = map(w[x][z].re, parseFloat(Wmin.value), parseFloat(Wmax.value), -rows / 2, rows / 2);
+        let Ycord2 = map(w2[x][z].re, parseFloat(Wmin.value), parseFloat(Wmax.value), -rows / 2, rows / 2);
+        let Ycord3 = map(w3[x][z].re, parseFloat(Wmin.value), parseFloat(Wmax.value), -rows / 2, rows / 2);
 
+        if (w[x][z].re < parseFloat(Wmax.value) && w[x][z].re > parseFloat(Wmin.value)) {
+          stroke(c, 250, 250);
+          point(Xcord * scl, -Ycord1 * scl, Zcord * scl);
+        }
+
+        if (w2[x][z].re < parseFloat(Wmax.value) && w2[x][z].re > parseFloat(Wmin.value)) {
+          stroke(c2, 250, 250);
+          point(Xcord * scl, -Ycord2 * scl, Zcord * scl);
+        }
+
+        if (w3[x][z].re < parseFloat(Wmax.value) && w3[x][z].re > parseFloat(Wmin.value)) {
+          stroke(c3, 250, 250);
+          point(Xcord * scl, -Ycord3 * scl, Zcord * scl);
+        }
       }
     }
   } else {
     for (let x = 0; x < cols; x++) {
-      for (let y = 0; y < rows; y++) {
-        let c = map(w[x][y].re, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
-        let c2 = map(w2[x][y].re, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
-        let c3 = map(w3[x][y].re, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
-        stroke(c, 250, 250);
-        point(x * scl, y * scl, map(w[x][y].im, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, rows) * scl);
-        stroke(c2, 250, 250);
-        point(x * scl, y * scl, map(w2[x][y].im, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, rows) * scl);
-        stroke(c3, 250, 250);
-        point(x * scl, y * scl, map(w3[x][y].im, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, rows) * scl);
+      for (let z = 0; z < rows; z++) {
+        let c = map(w[x][z].re, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
+        let c2 = map(w2[x][z].re, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
+        let c3 = map(w3[x][z].re, parseFloat(Wmin.value), parseFloat(Wmax.value), 0, 250);
+        let Xcord = map(x, 0, cols, -cols / 2, cols / 2);
+        let Zcord = map(z, 0, rows, -rows / 2, rows / 2);
+        let Ycord1 = map(w[x][z].im, parseFloat(Wmin.value), parseFloat(Wmax.value), -rows / 2, rows / 2);
+        let Ycord2 = map(w2[x][z].im, parseFloat(Wmin.value), parseFloat(Wmax.value), -rows / 2, rows / 2);
+        let Ycord3 = map(w3[x][z].im, parseFloat(Wmin.value), parseFloat(Wmax.value), -rows / 2, rows / 2);
+
+        if (w[x][z].im < parseFloat(Wmax.value) && w[x][z].im > parseFloat(Wmin.value)) {
+          stroke(c, 250, 250);
+          point(Xcord * scl, -Ycord1 * scl, Zcord * scl);
+        }
+
+        if (w2[x][z].im < parseFloat(Wmax.value) && w2[x][z].im > parseFloat(Wmin.value)) {
+          stroke(c2, 250, 250);
+          point(Xcord * scl, -Ycord2 * scl, Zcord * scl);
+        }
+
+        if (w3[x][z].im < parseFloat(Wmax.value) && w3[x][z].im > parseFloat(Wmin.value)) {
+          stroke(c3, 250, 250);
+          point(Xcord * scl, -Ycord3 * scl, Zcord * scl);
+        }
       }
     }
+
   }
 
 }
 
-
 function render() {
-  for (let y = 0; y < w.length; y++) {
-    w[y] = new Array(rows);
-    w2[y] = new Array(rows);
-    w3[y] = new Array(rows);
+  for (let zed = 0; zed < w.length; zed++) {
+    w[zed] = new Array(rows);
+    w2[zed] = new Array(rows);
+    w3[zed] = new Array(rows);
   }
   for (let x = 0; x < cols; x++) {
-    for (let y = 0; y < rows; y++) {
+    for (let z = 0; z < rows; z++) {
       let X = map(x, 0, cols, parseFloat(Zmin.value), parseFloat(Zmax.value));
-      let Y = map(y, 0, rows, parseFloat(Zmin.value), parseFloat(Zmax.value));
-      w[x][y] = cubeRoot1(X, Y, Ar.value, Ai.value, Br.value, Bi.value, Cr.value, Ci.value, Dr.value, Di.value);
-      w2[x][y] = cubeRoot2(X, Y, Ar.value, Ai.value, Br.value, Bi.value, Cr.value, Ci.value, Dr.value, Di.value);
-      w3[x][y] = cubeRoot3(X, Y, Ar.value, Ai.value, Br.value, Bi.value, Cr.value, Ci.value, Dr.value, Di.value);
+      let Z = map(z, 0, rows, parseFloat(Zmin.value), parseFloat(Zmax.value));
+      w[x][z] = cubeRoot1(X, Z, Ar.value, Ai.value, Br.value, Bi.value, Cr.value, Ci.value, Dr.value, Di.value);
+      w2[x][z] = cubeRoot2(X, Z, Ar.value, Ai.value, Br.value, Bi.value, Cr.value, Ci.value, Dr.value, Di.value);
+      w3[x][z] = cubeRoot3(X, Z, Ar.value, Ai.value, Br.value, Bi.value, Cr.value, Ci.value, Dr.value, Di.value);
     }
   }
 }
