@@ -196,7 +196,7 @@ function cubeRoot1(zr, zi, ar, ai, br, bi, cr, ci, dr, di) {
     return applyRoot1(zr, zi, br, bi, cr, ci, dr, di);
   }
 
-  let p = b.mul(-1).div(a.mul(1 / 3));
+  let p = b.mul(-1).div(a.mul(3));
   let q = p.pow(3).add((b.mul(c).sub(a.mul(3).mul(d))).div(a.pow(2).mul(6)));
   let r = c.div(a.mul(3));
 
@@ -219,7 +219,7 @@ function cubeRoot2(zr, zi, ar, ai, br, bi, cr, ci, dr, di) {
     return applyRoot2(zr, zi, br, bi, cr, ci, dr, di);
   }
 
-  let p = b.mul(-1).div(a.mul(1 / 3));
+  let p = b.mul(-1).div(a.mul(3));
   let q = p.pow(3).add((b.mul(c).sub(a.mul(3).mul(d))).div(a.pow(2).mul(6)));
   let r = c.div(a.mul(3));
 
@@ -239,7 +239,7 @@ function cubeRoot3(zr, zi, ar, ai, br, bi, cr, ci, dr, di) {
   let d = new Complex(dr - zr, di - zi);
 
   let rot = new Complex(-.5, sqrt(3) / 2);
-  let p = b.mul(-1).div(a.mul(1 / 3));
+  let p = b.mul(-1).div(a.mul(3));
   let q = p.pow(3).add((b.mul(c).sub(a.mul(3).mul(d))).div(a.pow(2).mul(6)));
   let r = c.div(a.mul(3));
 
