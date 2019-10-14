@@ -91,9 +91,9 @@ function draw() {
   if (!switchFactor) {
     for (let x = 0; x < cols; x++) {
       for (let z = 0; z < rows; z++) {
-        let c = map(w[x][z].im, parseFloat(wImMin.value), parseFloat(wImMax.value), 0, 250)%250;
-        let c2 = map(w2[x][z].im, parseFloat(wImMin.value), parseFloat(wImMax.value), 0, 250)%250;
-        let c3 = map(w3[x][z].im, parseFloat(wImMin.value), parseFloat(wImMax.value), 0, 250)%250;
+        let c = mod(map(w[x][z].im, parseFloat(wImMin.value), parseFloat(wImMax.value), 0, 250), 250);
+        let c2 = mod(map(w2[x][z].im, parseFloat(wImMin.value), parseFloat(wImMax.value), 0, 250), 250);
+        let c3 = mod(map(w3[x][z].im, parseFloat(wImMin.value), parseFloat(wImMax.value), 0, 250), 250);
         let Xcord = map(x, 0, cols, -cols / 2, cols / 2);
         let Zcord = map(z, 0, rows, -rows / 2, rows / 2);
         let Ycord1 = map(w[x][z].re, parseFloat(wReMin.value), parseFloat(wReMax.value), -rows / 2, rows / 2);
@@ -119,9 +119,9 @@ function draw() {
   } else {
     for (let x = 0; x < cols; x++) {
       for (let z = 0; z < rows; z++) {
-        let c = map(w[x][z].re, parseFloat(wReMin.value), parseFloat(wReMax.value), 0, 250)%250;
-        let c2 = map(w2[x][z].re, parseFloat(wReMin.value), parseFloat(wReMax.value), 0, 250)%250;
-        let c3 = map(w3[x][z].re, parseFloat(wReMin.value), parseFloat(wReMax.value), 0, 250)%250;
+        let c = mod(map(w[x][z].re, parseFloat(wReMin.value), parseFloat(wReMax.value), 0, 250), 250);
+        let c2 = mod(map(w2[x][z].re, parseFloat(wReMin.value), parseFloat(wReMax.value), 0, 250), 250);
+        let c3 = mod(map(w3[x][z].re, parseFloat(wReMin.value), parseFloat(wReMax.value), 0, 250), 250);
         let Xcord = map(x, 0, cols, -cols / 2, cols / 2);
         let Zcord = map(z, 0, rows, -rows / 2, rows / 2);
         let Ycord1 = map(w[x][z].im, parseFloat(wImMin.value), parseFloat(wImMax.value), -rows / 2, rows / 2);
@@ -288,4 +288,8 @@ function applyRoot2(zr, zi, br, bi, cr, ci, dr, di) {
   let discrim = b.mul(b).sub(a.mul(c.mul(4)));
   let x = (b.mul(-1).sub(discrim.sqrt())).div(a.mul(2));
   return x;
+}
+
+function mod(n, m) {
+  return ((n % m) + m) % m;
 }
